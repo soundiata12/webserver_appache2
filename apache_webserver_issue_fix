@@ -1,0 +1,33 @@
+elinks -dump https://servera.example.com/x.html
+
+cd /var/log/httpd
+
+-rw-r--r--. 1 root root 2181 Feb 2 18:05 error_log-20250202
+
+-rw-r--r--. 1 root root 540 Feb 9 access_log-20250209
+
+cd /var/www/html
+
+ls -l x.html
+
+-rw-------. 1 x x 133 Jan 27 03:04 x.html
+
+chmod -rwxr-xr-x x.html
+
+getenforce
+
+Enforcing
+
+ls -ltrZ x.html
+
+unconfined_u:object_r:var_t:s0
+
+ls -ltrZd /var/www/html
+
+ls -ltrZd /var/www/html
+
+system_u:object_r:httpd_sys_content_t:s0
+
+chcon -t httpd_sys_content_t x.html
+
+After making the necessary changes to the file permissions and SELinux context, I tested the server again and found that the issue was resolved.
